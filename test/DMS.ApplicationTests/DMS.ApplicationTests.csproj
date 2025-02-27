@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+		
+	<ItemGroup>
+	  <Content Remove="D:\DMS\dms-backend\DMS\/xunit.runner.json" />
+	</ItemGroup>
+		
+	<ItemGroup>
+		<Using Include="Xunit" />
+	</ItemGroup>
+
+</Project>

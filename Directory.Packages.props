@@ -1,0 +1,85 @@
+<Project>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+        <!-- Custom variables -->
+        <EntityFrameworkVersion>9.0.2</EntityFrameworkVersion>
+        <OpenTelemetryVersion>1.10.0</OpenTelemetryVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageVersion Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
+        <PackageVersion Include="AspNetCore.HealthChecks.Uris" Version="9.0.0" />
+        <PackageVersion Include="AspNetCore.HealthChecks.UI" Version="9.0.0" />
+        <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
+        <PackageVersion Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="9.0.0" />
+        <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />
+        <!-- Microsoft -->
+        <PackageVersion Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.3.0" />
+        <PackageVersion Include="Microsoft.AspNetCore.Routing" Version="2.3.0" />
+        <PackageVersion Include="Microsoft.AspNetCore.Identity" Version="2.3.0" />
+        <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
+        <PackageVersion Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+        <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(EntityFrameworkVersion)" />
+        <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(EntityFrameworkVersion)" />
+        <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="$(EntityFrameworkVersion)" />
+        <PackageVersion Include="Microsoft.Extensions.Configuration" Version="$(EntityFrameworkVersion)" />
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="$(EntityFrameworkVersion)" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="$(EntityFrameworkVersion)" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EntityFrameworkVersion)" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(EntityFrameworkVersion)" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EntityFrameworkVersion)" />
+        <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.5.0" />
+        <!-- OpenTelemetry -->
+        <PackageVersion Include="OpenTelemetry.Api" Version="$(OpenTelemetryVersion)" />
+        <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="$(OpenTelemetryVersion)" />
+        <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="$(OpenTelemetryVersion)" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.10.1" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.11" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="$(OpenTelemetryVersion)" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.Process" Version="0.5.0-beta.5" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="$(OpenTelemetryVersion)" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.8.0-beta.1" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.StackExchangeRedis" Version="1.0.0-rc9.14" />
+		<!-- Hangfire -->
+		<PackageVersion Include="Hangfire" Version="1.8.18" />
+		<PackageVersion Include="Hangfire.Console" Version="1.4.3" />
+		<PackageVersion Include="Hangfire.Console.Extensions" Version="2.0.0" />
+		<PackageVersion Include="Hangfire.Mongo" Version="1.11.4" />
+		<!-- Serilog -->
+		<PackageVersion Include="Serilog" Version="4.2.0" />
+		<PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
+		<PackageVersion Include="Serilog.Settings.Configuration" Version="9.0.0" />
+		<PackageVersion Include="Serilog.Extensions.Hosting" Version="9.0.0" />
+		<PackageVersion Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+		<PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
+		<PackageVersion Include="Serilog.Sinks.Debug" Version="3.0.0" />
+		<PackageVersion Include="Serilog.Sinks.Seq" Version="9.0.0" />
+        <!-- Others -->
+        <PackageVersion Include="MediatR" Version="12.4.1" />
+        <PackageVersion Include="Quartz.AspNetCore" Version="3.13.1" />
+        <PackageVersion Include="CsvHelper" Version="33.0.1" />
+        <PackageVersion Include="NETCore.MailKit" Version="2.1.0" />
+        <PackageVersion Include="StackExchange.Redis" Version="2.8.24" />
+        <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageVersion Include="FluentValidation" Version="11.11.0" />
+        <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
+        <PackageVersion Include="Minio" Version="6.0.4" />
+		<PackageVersion Include="AutoMapper" Version="14.0.0" />
+		<PackageVersion Include="EFCore.NamingConventions" Version="9.0.0" />
+		<PackageVersion Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+        <!-- Specific to unit tests -->
+        <PackageVersion Include="coverlet.collector" Version="6.0.2" />
+        <PackageVersion Include="FluentAssertions" Version="7.0.0" />
+        <PackageVersion Include="FluentAssertions.Analyzers" Version="0.34.1" />
+        <PackageVersion Include="Meziantou.Xunit.ParallelTestFramework" Version="2.3.0" />
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+        <PackageVersion Include="Moq" Version="4.20.72" />
+        <PackageVersion Include="NetArchTest.Rules" Version="1.3.2" />
+        <PackageVersion Include="System.Linq.Async" Version="6.0.1" />
+        <PackageVersion Include="xunit" Version="2.9.2" />
+        <PackageVersion Include="xunit.abstractions" Version="2.0.3" />
+        <PackageVersion Include="xunit.analyzers" Version="1.18.0" />
+        <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.0" />
+        <PackageVersion Include="Xunit.SkippableFact" Version="1.5.23" />
+    </ItemGroup>
+</Project>

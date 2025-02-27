@@ -1,0 +1,110 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <NuGetAudit>true</NuGetAudit>
+    <UserSecretsId>2df93ddc-aa14-4528-b57a-3ea4bb584ac0</UserSecretsId>
+
+    <IsArm64 Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">true</IsArm64>
+    <RuntimeIdentifier Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">linux-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true' And '$(IsArm64)' != 'true'">osx-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true' And '$(IsArm64)' == 'true'">osx-arm64</RuntimeIdentifier>
+
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+
+    <!-- Unfortunately reproduceable builds/package log is not working cross platform, see https://github.com/dotnet/sdk/issues/26505 -->
+    <!-- None of the workarounds listed in the GitHub issue are OK so for the time being we disable it since it provides no value, only pain -->
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+
+    <!-- Backend code should not rely on globalization: all string comparisons should be non culture aware, see https://github.com/dotnet/runtime/blob/main/docs/design/features/globalization-invariant-mode.md -->
+    <!-- However SQL Server managed driver relies on globalization, see https://github.com/dotnet/SqlClient/issues/220 -->
+    <!-- For that reason we cannot activate the invariant mode globally and need to enforce it for each string comparison call -->
+    <!-- <InvariantGlobalization>true</InvariantGlobalization> -->
+
+    <!-- Currently it is an opt-in feature, see: https://github.com/dotnet/project-system/blob/main/docs/build-acceleration.md -->
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+
+    <!-- Hard links can massively reduce the size of the build artifacts, see: https://github.com/dotnet/msbuild/issues/3788  -->
+    <CreateHardLinksForCopyFilesToOutputDirectoryIfPossible>true</CreateHardLinksForCopyFilesToOutputDirectoryIfPossible>
+    <CreateHardLinksForCopyAdditionalFilesIfPossible>true</CreateHardLinksForCopyAdditionalFilesIfPossible>
+    <CreateHardLinksForCopyLocalIfPossible>true</CreateHardLinksForCopyLocalIfPossible>
+    <CreateHardLinksForPublishFilesIfPossible>true</CreateHardLinksForPublishFilesIfPossible>
+
+    <!-- See the different Analysis modes here: https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#analysismode -->
+    <!-- We should be strict so either Recommended or AllEnabledByDefault -->
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <AnalysisLevel>latest</AnalysisLevel>
+
+    <!-- See https://www.meziantou.net/csharp-compiler-strict-mode.htm -->
+    <Features>strict</Features>
+
+    <!-- See https://github.com/dotnet/roslyn/blob/a6013f3213c902c0973b2d371c3007217d610533/docs/compilers/CSharp/Warnversion%20Warning%20Waves.md -->
+    <WarningLevel>9999</WarningLevel>
+
+    <WarningsNotAsErrors>
+      $(WarningsNotAsErrors),
+      NU1901, <!-- NuGet Audit should only create warnings, it's not defined yet how to handle security vulnerabilities -->
+      NU1902, <!-- NuGet Audit should only create warnings, it's not defined yet how to handle security vulnerabilities -->
+      NU1903, <!-- NuGet Audit should only create warnings, it's not defined yet how to handle security vulnerabilities -->
+    </WarningsNotAsErrors>
+
+    <NoWarn>
+      $(NoWarn),
+
+      CA1716, <!-- At this point we don't care about other .NET language -->
+
+      <!-- Additional ones when AnalysisMode is set to AllEnabledByDefault -->
+      CA2007, <!-- By default ConfigureAwait is irrelevant with ASP.NET Core since there is no SynchronizationContext -->
+      CA1062, <!-- We don't check parameters which are non nullable reference types against null (at runtime they could be null...) -->
+      CA1724, <!-- Colliding names is fine we disambiguate by namespace. Furthermore GraphQL types, like Query, collide with .NET BCL types -->
+      CA1812, <!-- It suggests removing types which are registered through DI... Open bug at https://github.com/dotnet/roslyn-analyzers/issues/6086 -->
+      CA5394, <!-- In most places the pseudo randomness is more than enough: we don't have security sensitive use cases yet -->
+      CA1034, <!-- Using nested types is subjective we want to leverage it for constants -->
+      CA1822, <!-- To inject Ilogger<T> into mutation -->
+
+      <!-- To tackle -->
+      CA1848, <!-- We should use the LoggerMessage delegates for performance: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca1848 -->
+    </NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(IsTestProject)' == 'true'">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="FluentAssertions.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.analyzers" />
+    <PackageReference Include="xunit.abstractions" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(IsTestProject)'=='true' And '$(TF_BUILD)'!='true'">
+    <!--
+      As of now our CI build agents don't benefit from parallelization
+      In fact it is even MUCH worse with it (see explanations in TestBase.cs / GetUnexpectedTimeout())
+      Thus the following is disabled in CI but it speeds things locally
+    -->
+    <PackageReference Include="Meziantou.Xunit.ParallelTestFramework" />
+    <Content Include="$(SolutionDir)/xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(IsTestProject)'=='true' And '$(TF_BUILD)'=='true'">
+    <Content Include="$(SolutionDir)/ci-only/xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

@@ -1,9 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<Folder Include="Mappers\" />
+	</ItemGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentValidation" />
+		<PackageReference Include="FluentValidation.AspNetCore" />
+		<PackageReference Include="AutoMapper" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" />
+		<PackageReference Include="Serilog" />
+	</ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\DMS.Domain\DMS.Domain.csproj" />
+	</ItemGroup>
 </Project>

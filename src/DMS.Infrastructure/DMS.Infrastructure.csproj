@@ -1,9 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
+	<ItemGroup>
+		<PackageReference Include="Minio" />
+		<PackageReference Include="Hangfire" />
+		<PackageReference Include="Hangfire.Mongo" />
+		<PackageReference Include="Hangfire.Console.Extensions" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+		<PackageReference Include="EFCore.NamingConventions" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\DMS.Application\DMS.Application.csproj" />
+		<ProjectReference Include="..\DMS.Domain\DMS.Domain.csproj" />
+	</ItemGroup>
 </Project>
