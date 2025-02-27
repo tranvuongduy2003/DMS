@@ -13,6 +13,8 @@ builder.Host.UseSerilog(SerilogExtensions.Configuration);
 
 EmailOptions emailSettings = builder.Services.GetOptions<EmailOptions>(EmailOptions.Key);
 builder.Services.TryAddSingleton(emailSettings);
+JwtOptions jwtOptions = builder.Services.GetOptions<JwtOptions>(JwtOptions.Key);
+builder.Services.TryAddSingleton(jwtOptions);
 
 string databaseConnectionString = builder.Configuration.GetConnectionString("Database")!;
 
@@ -24,7 +26,8 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(
     databaseConnectionString,
     hangfireSettings,
-    minioStorage);
+    minioStorage,
+    jwtOptions);
 
 builder.Services.AddDMSServices();
 

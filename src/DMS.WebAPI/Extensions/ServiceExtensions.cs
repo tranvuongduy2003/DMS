@@ -1,11 +1,6 @@
-﻿using System.Text;
-using DMS.Domain.Settings;
-using DMS.WebAPI.Middlewares;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using DMS.WebAPI.Middlewares;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.IdentityModel.Tokens;
 
 namespace DMS.WebAPI.Extensions;
 
@@ -56,34 +51,6 @@ internal static class ServiceExtensions
         services.AddSwaggerDocumentation();
 
         services.AddEndpoints(AssemblyReference.Assembly);
-
-        JwtOptions jwtOptions = services.GetOptions<JwtOptions>(JwtOptions.Key);
-        services.TryAddSingleton(jwtOptions);
-        byte[] key = Encoding.ASCII.GetBytes(jwtOptions.Secret);
-
-        services
-            .AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddCookie()
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, x =>
-            {
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidIssuer = jwtOptions.Issuer,
-                    ValidAudience = jwtOptions.Audience,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
-                };
-                x.SaveToken = true;
-            });
 
         return services;
     }

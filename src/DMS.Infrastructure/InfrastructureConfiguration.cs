@@ -2,6 +2,8 @@
 using DMS.Domain.Settings;
 using DMS.Domain.Users;
 using DMS.Domain.Users.Entities;
+using DMS.Infrastructure.Authentication;
+using DMS.Infrastructure.Authorization;
 using DMS.Infrastructure.Persistance;
 using Hangfire;
 using Hangfire.Console.Extensions;
@@ -23,8 +25,13 @@ public static class InfrastructureConfiguration
         this IServiceCollection services,
         string databaseConnectionString,
         HangfireSettings hangfireSettings,
-        MinioStorage minioStorage)
+        MinioStorage minioStorage,
+        JwtOptions jwtOptions)
     {
+        services.AddAuthenticationInternal(jwtOptions);
+
+        services.AddAuthorizationInternal();
+
         services.Configure<IdentityOptions>(options =>
         {
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
