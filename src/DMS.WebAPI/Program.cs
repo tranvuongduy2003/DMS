@@ -31,6 +31,8 @@ builder.Services.AddDMSServices();
 builder.Services.AddHealthChecks()
     .AddSqlServer(databaseConnectionString);
 
+builder.Configuration.AddConfiguration();
+
 WebApplication app = builder.Build();
 
 app.UseInfrastructure(hangfireSettings);
