@@ -60,3 +60,5 @@ bld/
 Thumbs.db
 
 DMS.AppHost/.containers/*
+
+.idea/
