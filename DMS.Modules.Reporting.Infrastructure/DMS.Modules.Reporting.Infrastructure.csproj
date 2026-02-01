@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DMS.Modules.Reporting.Api\DMS.Modules.Reporting.Api.csproj" />
+      <ProjectReference Include="..\DMS.Modules.Reporting.Application\DMS.Modules.Reporting.Application.csproj" />
+      <ProjectReference Include="..\DMS.SharedKernel.Infrastructure\DMS.SharedKernel.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Mappings\" />
+      <Folder Include="Persistance\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="SonarAnalyzer.CSharp" Version="10.19.0.132793">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+</Project>
